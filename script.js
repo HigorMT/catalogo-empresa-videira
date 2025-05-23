@@ -206,15 +206,15 @@ function abrirModal(item) {
             <div class="modal-section">
                 <h3>Detalhes da Empresa</h3>
                 <p id="area_de_atuacao_">
-                    <strong><i class="fas fa-briefcase"></i> Área de Atuação:</strong>
+                    <strong><i class="fas fa-briefcase"></i> Área de Atuação:&nbsp;</strong>
                     <span>${item?.area_de_atuacao_?.value || 'Não informada'}</span>
                 </p>
                 <p id="natureza_do_trabalho">
-                    <strong><i class="fas fa-building"></i> Natureza:</strong>
+                    <strong><i class="fas fa-building"></i> Natureza:&nbsp;</strong>
                     <span>${item?.natureza_do_trabalho_?.value || 'Não informada'}</span>
                 </p>
                 <p id="tempo_de_atuacao_e_de_experiencia">
-                    <strong><i class="fas fa-clock"></i> Tempo de Atuação:</strong>
+                    <strong><i class="fas fa-clock"></i> Tempo de Atuação: &nbsp;</strong>
                     <span>${item?.tempo_de_atuacao_e_de_experiencia?.value || 'Não informado'}</span> 
                 </p>
             </div>
