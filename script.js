@@ -72,12 +72,12 @@ function renderizarDados(lista) {
             </div>
             <div class="card-content">
                 <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <span>${telefoneFormatado}</span>
+                    <i class="fas fa-user"></i>
+                    <span>${item?.nome?.value || 'Não informado'}</span> 
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>${item?.e_mail?.value || 'Sem e-mail'}</span>
+                    <i class="fas fa-briefcase"></i>
+                    <span>${item?.area_de_atuacao_?.value || 'Não informada'}</span>
                 </div>
             </div>
             <div class="card-actions">
