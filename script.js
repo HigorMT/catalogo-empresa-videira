@@ -414,6 +414,16 @@ function formatarTelefone(numero) {
     return numero;
 }
 
+function normalizeText(text) {
+
+    if (!text) {
+        return ''
+    }
+
+    return `${text}`?.normalize("NFD")?.replace(/[\u0300-\u036f]/g, "")?.replace(/[^a-zA-Z0-9]/g, "_")?.toLowerCase()
+
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     carregarDados();
     
@@ -421,14 +431,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const searchButton = document.querySelector('.search-button');
     
     function filtrarPorNome() {
-        const termo = searchInput.value.toLowerCase();
+        const termo = normalizeText(searchInput.value);
         const cards = document.querySelectorAll('.company-card');
         
         let contadorVisivel = 0;
         
         cards.forEach(card => {
-            const nomeEmpresa = card.querySelector('.company-name').textContent.toLowerCase();
-            const conteudoCard = card.querySelector('.card-content').textContent.toLowerCase();
+
+            const nomeEmpresa = normalizeText(card.querySelector('.company-name')?.textContent);
+            const conteudoCard = normalizeText(card.querySelector('.card-content').textContent);
             
             if (nomeEmpresa.includes(termo) || conteudoCard.includes(termo)) {
                 card.style.display = (viewMode === 'grid' ? 'block' : 'flex');
