@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Empresas - Empreendedores Radicais</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="https://storage.googleapis.com/media_files_prod/uploads/tertiarygroup/6143/tertiarygroup-f179e69e3b76c3c3c6d687d4d17e824a.png" alt="Logo Empreendedores Radicais" class="logo-midle">
+                <h1 class="main-title">Catálogo de Empresas</h1>
+<!--                <span class="logo-name">EMPREENDEDORES RADICAIS</span>-->
+            </div>
+
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" placeholder="Buscar empresas..." class="search-input">
+                    <button class="search-button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="categories">
+        <div class="container">
+            <div class="categories-scroll">
+                <button class="category-button active">Todas</button>
+                <button class="category-button">Tecnologia</button>
+                <button class="category-button">Contabilidade</button>
+                <button class="category-button">Beleza</button>
+                <button class="category-button">Marketing</button>
+                <button class="category-button">Serviços</button>
+                <button class="category-button">Comércio</button>
+                <button class="category-button">Outros</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="view-options">
+                <div class="results-count">
+                    <span>Carregando empresas...</span>
+                </div>
+                <div class="display-options">
+                    <button id="view-grid" class="view-button active" title="Visualização em grade"><i class="fas fa-th-large"></i></button>
+                    <button id="view-list" class="view-button" title="Visualização em lista"><i class="fas fa-list"></i></button>
+                </div>
+            </div>
+
+
+            <div id="loader" class="loader">
+                <div class="spinner"></div>
+                <p>Carregando dados...</p>
+            </div>
+
+
+            <div id="companies-grid" class="companies-grid">
+
+            </div>
+        </div>
+    </main>
+
+
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal-container">
+            <button id="modal-close" class="modal-close"><i class="fas fa-times"></i></button>
+            <div id="modal-content" class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <img src="https://storage.googleapis.com/media_files_prod/uploads/tertiarygroup/6143/tertiarygroup-f179e69e3b76c3c3c6d687d4d17e824a.png" alt="Logo Empreendedores Radicais" class="logo-midle">
+                    </div>
+                    <span class="logo-name">EMPREENDEDORES RADICAIS</span>
+                    <p>Conectando empreendedores e clientes em Várzea Grande e região.</p>
+                </div>
+
+                <div class="footer-contact">
+                    <div class="social-links">
+                        <a href="https://forms.gle/Eq9EDpPfQAwCAh166" target="_blank" class="social-link" title="Sou Empreendedor, quero me cadastrar">
+                            <i class="fab fa-forms_add_on"></i>
+                            <span class="material-symbols-outlined">forms_add_on</span>
+                        </a>
+                        <a href="https://www.instagram.com/videiravg/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/6599950105" target="_blank" class="social-link">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Empreendedores Radicais - Várzea Grande. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
