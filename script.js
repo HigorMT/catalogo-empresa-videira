@@ -343,6 +343,7 @@ function obterCorCategoria(categoria) {
         'marketing': 'var(--cat-marketing)',
         'servicos': 'var(--cat-servicos)',
         'comercio': 'var(--cat-comercio)',
+        'imobiliaria': 'var(--cat-imobiliaria)',
         'outros': 'var(--cat-outros)'
     };
     
@@ -373,20 +374,22 @@ function adicionarEventosBotoes() {
 }
 
 function normalizarCategoria(categoria) {
-    categoria = categoria.toLowerCase().trim();
-    
-    if (categoria.includes('tecnologia') || categoria.includes('tech') || categoria.includes('software') || categoria.includes('ti')) {
-        return 'tecnologia';
-    } else if (categoria.includes('contabil') || categoria.includes('contab') || categoria.includes('financ')) {
+    categoria = normalizeText(categoria).trim();
+
+    if (categoria.includes('contabil') || categoria.includes('contab') || categoria.includes('financ') || categoria.includes('contador')) {
         return 'contabilidade';
-    } else if (categoria.includes('beleza') || categoria.includes('estética') || categoria.includes('salão')) {
+    } else if (categoria.includes('beleza') || categoria.includes('estetica') || categoria.includes('biomedica') || categoria.includes('lash') || categoria.includes('salao')) {
         return 'beleza';
     } else if (categoria.includes('market') || categoria.includes('publicidade') || categoria.includes('divulg')) {
         return 'marketing';
-    } else if (categoria.includes('serviço') || categoria.includes('prestação')) {
+    } else if (categoria.includes('servico') || categoria.includes('prestacao') || categoria.includes('montador') || categoria.includes('mecanico')) {
         return 'servicos';
-    } else if (categoria.includes('comércio') || categoria.includes('venda') || categoria.includes('loja')) {
+    } else if (categoria.includes('comercio') || categoria.includes('venda') || categoria.includes('loja') || categoria.includes('presentes') || categoria.includes('roupas') ) {
         return 'comercio';
+    } else if (categoria.includes('corretor') || categoria.includes('imov') || categoria.includes('imob') ) {
+        return 'imobiliaria';
+    } else if (categoria.includes('tecnologia') || categoria.includes('tech') || categoria.includes('software') || categoria.includes('ti')) {
+        return 'tecnologia';
     } else {
         return 'outros';
     }
@@ -471,7 +474,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             this.classList.add('active');
             
-            const categoria = this.textContent.toLowerCase();
+            const categoria = normalizeText(this.textContent);
             const cards = document.querySelectorAll('.company-card');
             
             let contadorVisivel = 0;
@@ -483,7 +486,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
             } else {
                 cards.forEach(card => {
-                    if (card.dataset.category === categoria) {
+                    if (normalizeText(card.dataset.category) === categoria) {
                         card.style.display = (viewMode === 'grid' ? 'block' : 'flex');
                         contadorVisivel++;
                     } else {
