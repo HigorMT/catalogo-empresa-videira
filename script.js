@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycby4uj7txE2mCzngQPCOJB7AE87jDvooiOFIXE8BUOowndZ8apZb4mOGHzGooG-iYhZg/exec";
+const API_URL = 'https://script.google.com/macros/s/AKfycby4uj7txE2mCzngQPCOJB7AE87jDvooiOFIXE8BUOowndZ8apZb4mOGHzGooG-iYhZg/exec';
 
 class DadosPlanilha {
     header;
@@ -9,6 +9,7 @@ class BasicData {
     endereco_da_empresa;
     nome_da_empresa;
     area_de_atuacao_;
+    categoria;
     telefone;
     e_mail;
     nome;
@@ -24,9 +25,9 @@ let dadosPlanilha = [];
 let viewMode = 'grid';
 
 async function carregarDados() {
-    const loader = document.getElementById("loader");
+    const loader = document.getElementById('loader');
     if (loader) {
-        loader.style.display = "flex";
+        loader.style.display = 'flex';
     }
 
     try {
@@ -35,37 +36,43 @@ async function carregarDados() {
 
         renderizarDados(dadosPlanilha);
     } catch (error) {
-        console.error("Erro ao buscar dados da planilha:", error);
+        console.error('Erro ao buscar dados da planilha:', error);
     } finally {
         if (loader) {
-            loader.style.display = "none";
+            loader.style.display = 'none';
         }
     }
 }
 
 function renderizarDados(lista) {
-    const container = document.getElementById("companies-grid");
+    const container = document.getElementById('companies-grid');
     if (!container) return;
-    
-    container.innerHTML = "";
+
+    container.innerHTML = '';
 
     const dadosBasicos = lista;
-    
+
     const resultsCount = document.querySelector('.results-count span');
     if (resultsCount) {
         resultsCount.textContent = `${dadosBasicos.length} empresas encontradas`;
     }
 
-    dadosBasicos.forEach((item, index) => {
-        const card = document.createElement("div");
-        card.className = "company-card";
-        
-        const categoria = normalizarCategoria(item?.area_de_atuacao_?.value || 'outros');
-        card.dataset.category = categoria;
+    dadosBasicos.forEach((item) => {
+        item.categoria = normalizarCategoria(item?.area_de_atuacao_?.value || 'outros');
+    });
 
-        const telefoneFormatado = formatarTelefone(`${item?.telefone?.value || ''}`);
+    dadosBasicos
+        .sort((a, b) => a.categoria - b.categoria)
+        .forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'company-card';
 
-        card.innerHTML = `
+            const categoria = normalizarCategoria(item?.area_de_atuacao_?.value || 'outros');
+            card.dataset.category = categoria;
+
+            const telefoneFormatado = formatarTelefone(`${item?.telefone?.value || ''}`);
+
+            card.innerHTML = `
             <div class="card-header">
                 <h2 class="company-name">${item?.nome_da_empresa?.value || 'Sem nome'}</h2>
                 <span class="category-tag">${capitalizarPrimeiraLetra(categoria)}</span>
@@ -87,44 +94,44 @@ function renderizarDados(lista) {
             </div>
         `;
 
-        card.querySelector('.details-button').addEventListener("click", () => abrirModal(item));
-        
-        card.querySelector('.whatsapp-button').addEventListener("click", (e) => {
-            e.stopPropagation();
-            const phone = e.currentTarget.getAttribute('data-phone');
-            if (phone) {
-                const whatsappNumber = phone.replace(/\D/g, "");
-                window.open(`https://wa.me/${whatsappNumber}`, '_blank');
-            }
+            card.querySelector('.details-button').addEventListener('click', () => abrirModal(item));
+
+            card.querySelector('.whatsapp-button').addEventListener('click', (e) => {
+                e.stopPropagation();
+                const phone = e.currentTarget.getAttribute('data-phone');
+                if (phone) {
+                    const whatsappNumber = phone.replace(/\D/g, '');
+                    window.open(`https://wa.me/${whatsappNumber}`, '_blank');
+                }
+            });
+
+            container.appendChild(card);
         });
 
-        container.appendChild(card);
-    });
-    
     adicionarEventosBotoes();
-    
+
     const companyCards = document.querySelectorAll('.company-card');
     companyCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
+        card.addEventListener('mouseenter', function () {
             if (viewMode === 'grid') {
                 this.style.transform = 'translateY(-5px)';
                 this.style.boxShadow = '0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)';
             }
         });
-        
-        card.addEventListener('mouseleave', function() {
+
+        card.addEventListener('mouseleave', function () {
             if (viewMode === 'grid') {
                 this.style.transform = '';
                 this.style.boxShadow = '';
             }
         });
     });
-    
+
     aplicarModoVisualizacao();
 }
 
 function aplicarModoVisualizacao() {
-    const companiesGrid = document.getElementById("companies-grid");
+    const companiesGrid = document.getElementById('companies-grid');
     const cards = document.querySelectorAll('.company-card');
 
     if (!cards) return;
@@ -141,7 +148,7 @@ function aplicarModoVisualizacao() {
 
     const gridButton = document.querySelector('.view-button:nth-child(1)');
     const listButton = document.querySelector('.view-button:nth-child(2)');
-    
+
     if (gridButton && listButton) {
         if (viewMode === 'grid') {
             gridButton.classList.add('active');
@@ -154,19 +161,19 @@ function aplicarModoVisualizacao() {
 }
 
 function abrirModal(item) {
-    const modalOverlay = document.getElementById("modal-overlay");
-    const modalContent = document.getElementById("modal-content");
-    
+    const modalOverlay = document.getElementById('modal-overlay');
+    const modalContent = document.getElementById('modal-content');
+
     if (!modalOverlay || !modalContent) {
-        console.error("Elementos do modal não encontrados");
+        console.error('Elementos do modal não encontrados');
         return;
     }
 
-    const whatsappNumber = `${item?.telefone?.value || ''}`?.replace(/\D/g, "");
+    const whatsappNumber = `${item?.telefone?.value || ''}`?.replace(/\D/g, '');
     const link = `https://wa.me/${whatsappNumber}`;
 
     const telefoneFormatado = formatarTelefone(`${item?.telefone?.value || ''}`);
-    
+
     const categoria = normalizarCategoria(item?.area_de_atuacao_?.value || 'outros');
     const corCategoria = obterCorCategoria(categoria);
 
@@ -330,9 +337,9 @@ function abrirModal(item) {
             }
         }
     `;
-    
+
     modalContent.appendChild(style);
-    modalOverlay.classList.remove("hidden");
+    modalOverlay.classList.remove('hidden');
 }
 
 function obterCorCategoria(categoria) {
@@ -346,25 +353,25 @@ function obterCorCategoria(categoria) {
         'imobiliaria': 'var(--cat-imobiliaria)',
         'outros': 'var(--cat-outros)'
     };
-    
+
     return cores[categoria] || cores['outros'];
 }
 
 function adicionarEventosBotoes() {
     const callButtons = document.querySelectorAll('.call-button');
     const emailButtons = document.querySelectorAll('.email-button');
-    
+
     callButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.stopPropagation();
             const card = this.closest('.company-card');
             const phoneNumber = card.querySelector('.contact-item:nth-child(1) span').textContent.trim();
             window.location.href = `tel:${phoneNumber}`;
         });
     });
-    
+
     emailButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.stopPropagation();
             const card = this.closest('.company-card');
             const emailAddress = card.querySelector('.contact-item:nth-child(2) span').textContent.trim();
@@ -384,9 +391,9 @@ function normalizarCategoria(categoria) {
         return 'marketing';
     } else if (categoria.includes('servico') || categoria.includes('prestacao') || categoria.includes('montador') || categoria.includes('mecanico')) {
         return 'servicos';
-    } else if (categoria.includes('comercio') || categoria.includes('venda') || categoria.includes('loja') || categoria.includes('presentes') || categoria.includes('roupas') ) {
+    } else if (categoria.includes('comercio') || categoria.includes('venda') || categoria.includes('loja') || categoria.includes('presentes') || categoria.includes('roupas')) {
         return 'comercio';
-    } else if (categoria.includes('corretor') || categoria.includes('imov') || categoria.includes('imob') ) {
+    } else if (categoria.includes('corretor') || categoria.includes('imov') || categoria.includes('imob')) {
         return 'imobiliaria';
     } else if (categoria.includes('tecnologia') || categoria.includes('tech') || categoria.includes('software') || categoria.includes('ti')) {
         return 'tecnologia';
@@ -423,27 +430,27 @@ function normalizeText(text) {
         return ''
     }
 
-    return `${text}`?.normalize("NFD")?.replace(/[\u0300-\u036f]/g, "")?.replace(/[^a-zA-Z0-9]/g, "_")?.toLowerCase()
+    return `${text}`?.normalize('NFD')?.replace(/[\u0300-\u036f]/g, '')?.replace(/[^a-zA-Z0-9]/g, '_')?.toLowerCase()
 
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function () {
     carregarDados();
-    
+
     const searchInput = document.querySelector('.search-input');
     const searchButton = document.querySelector('.search-button');
-    
+
     function filtrarPorNome() {
         const termo = normalizeText(searchInput.value);
         const cards = document.querySelectorAll('.company-card');
-        
+
         let contadorVisivel = 0;
-        
+
         cards.forEach(card => {
 
             const nomeEmpresa = normalizeText(card.querySelector('.company-name')?.textContent);
             const conteudoCard = normalizeText(card.querySelector('.card-content').textContent);
-            
+
             if (nomeEmpresa.includes(termo) || conteudoCard.includes(termo)) {
                 card.style.display = (viewMode === 'grid' ? 'block' : 'flex');
                 contadorVisivel++;
@@ -451,34 +458,34 @@ document.addEventListener("DOMContentLoaded", function() {
                 card.style.display = 'none';
             }
         });
-        
+
         const resultsCount = document.querySelector('.results-count span');
         if (resultsCount) {
             resultsCount.textContent = `${contadorVisivel} empresas encontradas`;
         }
     }
-    
+
     if (searchInput) {
         searchInput.addEventListener('input', filtrarPorNome);
     }
-    
+
     if (searchButton) {
         searchButton.addEventListener('click', filtrarPorNome);
     }
-    
+
     const categoryButtons = document.querySelectorAll('.category-button');
-    
+
     categoryButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             categoryButtons.forEach(btn => btn.classList.remove('active'));
-            
+
             this.classList.add('active');
-            
+
             const categoria = normalizeText(this.textContent);
             const cards = document.querySelectorAll('.company-card');
-            
+
             let contadorVisivel = 0;
-            
+
             if (categoria === 'todas') {
                 cards.forEach(card => {
                     card.style.display = (viewMode === 'grid' ? 'block' : 'flex');
@@ -494,43 +501,43 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 });
             }
-            
+
             const resultsCount = document.querySelector('.results-count span');
             if (resultsCount) {
                 resultsCount.textContent = `${contadorVisivel} empresas encontradas`;
             }
         });
     });
-    
+
     const viewButtons = document.querySelectorAll('.view-button');
-    
+
     viewButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             viewButtons.forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
-            
+
             if (this.querySelector('.fa-list')) {
                 viewMode = 'list';
             } else {
                 viewMode = 'grid';
             }
-            
+
             aplicarModoVisualizacao();
         });
     });
-    
+
     const closeModal = () => {
-        const modalOverlay = document.getElementById("modal-overlay");
+        const modalOverlay = document.getElementById('modal-overlay');
         if (modalOverlay) {
-            modalOverlay.classList.add("hidden");
+            modalOverlay.classList.add('hidden');
         }
     };
 
-    document.getElementById("modal-close")?.addEventListener("click", closeModal);
-    document.getElementById("modal-overlay")?.addEventListener("click", (e) => {
+    document.getElementById('modal-close')?.addEventListener('click', closeModal);
+    document.getElementById('modal-overlay')?.addEventListener('click', (e) => {
         if (e.target === e.currentTarget) closeModal();
     });
-    
+
     const navbar = document.getElementById('navbar');
     const searchIcon = document.getElementById('search-icon');
     const timesIcon = document.getElementById('times-icon');
@@ -551,20 +558,22 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-document.addEventListener("click", function(e) {
+document.addEventListener('click', function (e) {
     const target = e.target;
 
-    if (target.matches(".copy-btn")) {
-        const textToCopy = target.getAttribute("data-copy");
+    if (target.matches('.copy-btn')) {
+        const textToCopy = target.getAttribute('data-copy');
         if (!textToCopy) return;
 
         navigator.clipboard.writeText(textToCopy)
             .then(() => {
-                target.innerText = "check";
-                setTimeout(() => { target.innerText = "content_copy"; }, 1500);
+                target.innerText = 'check';
+                setTimeout(() => {
+                    target.innerText = 'content_copy';
+                }, 1500);
             })
             .catch((err) => {
-                console.error("Erro ao copiar:", err);
+                console.error('Erro ao copiar:', err);
             });
     }
 });

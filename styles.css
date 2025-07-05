@@ -1,9 +1,10 @@
 :root {
-    --primary: #3F51B5;
-    --secondary: #4af5a9;
 
-    --accent-1: #303F9F;
-    --accent-2: #FF5722;
+    --primary: #1B5E20;
+    --secondary: #52f659;
+
+    --accent-1: #0A3D0A;
+    --accent-2: #81C784;
 
     --light: #FFFFFF;
     --dark: #212121;
@@ -18,9 +19,11 @@
     --gray-800: #424242;
     --gray-900: #212121;
 
-    --blue-300: #15548d;
-    --blue-400: #003464;
-    --blue-600: #00041e;
+    --green-300: #1B5E20;
+    --green-400: #0A3D0A;
+    --green-500: #033303;
+    --green-600: #002200;
+    --green-900: #001700;
 
     --cat-tecnologia: #2196F3;
     --cat-contabilidade: #673AB7;
@@ -39,13 +42,15 @@
 }
 
 
-html, body, header {
+html, body, header, #root {
     min-width: 580px;
+    overflow-x: auto;
 }
+
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background: linear-gradient(45deg, var(--blue-300), var(--blue-600));
+    background: linear-gradient(180deg, var(--gray-200), var(--gray-500));
     color: var(--gray-800);
     line-height: 1.6;
 }
@@ -64,11 +69,10 @@ main {
 }
 
 .header {
-    background-color: var(--accent-1);
+    background: linear-gradient(0deg, var(--green-600), var(--green-900));
     color: var(--light);
     padding: 1rem 0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    /*position: sticky;*/
     width: 100vw;
     top: 0;
     z-index: 1000;
@@ -82,6 +86,18 @@ main {
     margin: auto;
     padding: 0 10rem;
     width: 100vw;
+}
+
+.header-title {
+    align-items: center;
+    display: grid;
+    gap: 0.5rem;
+
+    .main-title {
+        font-size: 2.7rem;
+        color: var(--secondary);
+    }
+
 }
 
 .logo-container {
@@ -183,7 +199,7 @@ main {
 }
 
 .categories {
-    background: linear-gradient(82deg, var(--blue-300), var(--blue-400));
+    background: linear-gradient(82deg, var(--green-500), var(--green-400));
     padding: 0.5rem 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     /*position: sticky;*/
@@ -311,7 +327,7 @@ main {
 
 .companies-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
     transition: all 0.3s ease;
 }
@@ -491,11 +507,11 @@ main {
 }
 
 .call-button:hover {
-    background-color: #4CAF50;
+    background-color: var(--secondary);
 }
 
 .email-button:hover {
-    background-color: #2196F3;
+    background-color: var(--primary);
 }
 
 .details-button:hover {
@@ -504,7 +520,7 @@ main {
 }
 
 .whatsapp-button:hover {
-    background-color: #25D366;
+    background-color: var(--secondary);
 }
 
 .modal-overlay {
@@ -623,7 +639,7 @@ main {
 }
 
 .footer {
-    background: linear-gradient(82deg, var(--blue-400), var(--blue-600));
+    background: linear-gradient(0deg, var(--green-600), var(--green-900));
     color: var(--light);
 
     padding: 2rem 0 1rem;
@@ -745,7 +761,7 @@ main {
 
 @media (max-width: 768px) {
     .companies-grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 
     .footer-content {
@@ -803,10 +819,18 @@ main {
         width: 150px;
     }
 
+    .header-title {
+        .main-title {
+            margin-left: -100px;
+            font-size: 2.2rem;
+            width: 300px;
+        }
+    }
+
     .main-title {
+        margin-left: -98px;
         font-size: 1.5rem;
         width: 300px;
-        margin-left: -66px;
     }
 
     .categories {
@@ -830,8 +854,9 @@ main {
 }
 
 
+
 header {
-    background: url("./assets/nav-background.png");
+    /*background: url("./assets/nav-background.png");*/
     background-blend-mode: hard-light;
     background-size: cover;
     min-height: 245px;
